@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <editor-content :editor="editor" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { Editor, EditorContent } from "@tiptap/vue-2";
+import StarterKit from "@tiptap/starter-kit";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
-</script>
+    EditorContent,
+  },
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  data() {
+    return {
+      editor: null,
+    };
+  },
+
+  mounted() {
+    this.editor = new Editor({
+      extensions: [StarterKit],
+      content: `
+        <pre><code>
+	Please copy and paste the moby content from the long example here.
+	</code></pre>
+      `,
+    });
+  },
+
+  beforeUnload() {
+    this.editor.destroy();
+  },
+};
+</script>
